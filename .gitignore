@@ -1,11 +1,29 @@
-# History files
-.Rhistory
+#week 4 assignement
+#install.packages("ggplot2"),I did this already
+#install.packages("plyr")    I did this already
 
-# Example code in package build process
-*-Ex.R
 
-# R data files from past sessions
-.Rdata
+library(ggplot2)
+library(plyr)
+# movies.tab <- read.delim("C:/Users/tt/Downloads/movies.tab.gz", header=FALSE),I did this already
+#In order to know the best popular movie per year,we must look for the mean of 
+#ratings,the mean of votes,and do the ratio of rating to votes for each year.
+#To know the year that will give us the most popular movie ,we must take the 
+#smallest possible ratio,the smaller it get, meaning that the number of votes 
+#associated is large,then the movie is  more popular
 
-# RStudio files
-.Rproj.user/
+#table of popular movies per year
+PopMovieByYear<-ddply(movies,"year",summarise,AvRating=mean(rating),AvVotes=mean(votes),RatioPop=AvRating/AvVotes)
+PopMovieByYear
+#looking for the most the one with maximum popular votes and a good rating is
+mostPopMovieYear<-PopMovieByYear[which.min(PopMovieByYear$RatioPop),1]
+mostPopMovieYear# I found 1999 to be the year
+#I try unsuccefully to use those plot functions
+#ggplot(PopMovieByYear,aes(x=year,y=RatioPop))+geom_point()+ggtitle("pop movies")
+#qplot(year,RatioPop,data=PopMovieByYear,geom=c("point","smooth"),color=am,xlab="Years",ylab="rate")
+
+plot(PopMovieByYear$year,PopMovieByYear$RatioPop)
+#with this above ,the lowest value is indeed by 1999
+
+
+
